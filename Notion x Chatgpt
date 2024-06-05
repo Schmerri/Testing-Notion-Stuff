@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Fortschritt</title>
+    <style>
+        .task {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .progress-bar {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .progress {
+            height: 20px;
+            background-color: #76c7c0;
+            text-align: center;
+            line-height: 20px;
+            color: white;
+            width: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="tasks-container"></div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Beispiel-Tasks und deren Status (true = abgeschlossen, false = nicht abgeschlossen)
+            const tasks = [
+                { name: "Task 1", completed: true },
+                { name: "Task 2", completed: false },
+                { name: "Task 3", completed: true },
+                { name: "Task 4", completed: false }
+            ];
+            
+            const tasksContainer = document.getElementById('tasks-container');
+            let completedTasks = 0;
+            
+            tasks.forEach(task => {
+                const taskElement = document.createElement('div');
+                taskElement.className = 'task';
+                
+                const taskName = document.createElement('span');
+                taskName.textContent = task.name;
+                taskElement.appendChild(taskName);
+                
+                const progressBar = document.createElement('div');
+                progressBar.className = 'progress-bar';
+                
+                const progress = document.createElement('div');
+                progress.className = 'progress';
+                progress.style.width = task.completed ? '100%' : '0';
+                progress.textContent = task.completed ? '100%' : '0%';
+                
+                progressBar.appendChild(progress);
+                taskElement.appendChild(progressBar);
+                
+                tasksContainer.appendChild(taskElement);
+                
+                if (task.completed) {
+                    completedTasks++;
+                }
+            });
+            
+            const overallProgress = Math.round((completedTasks / tasks.length) * 100);
+            
+            const overallProgressBar = document.createElement('div');
+            overallProgressBar.className = 'progress-bar';
+            overallProgressBar.style.marginTop = '20px';
+            
+            const overallProgressElement = document.createElement('div');
+            overallProgressElement.className = 'progress';
+            overallProgressElement.style.width = overallProgress + '%';
+            overallProgressElement.textContent = overallProgress + '%';
+            
+            overallProgressBar.appendChild(overallProgressElement);
+            tasksContainer.appendChild(overallProgressBar);
+            
+            const overallProgressLabel = document.createElement('div');
+            overallProgressLabel.textContent = 'Gesamtfortschritt';
+            tasksContainer.insertBefore(overallProgressLabel, overallProgressBar);
+        });
+    </script>
+</body>
+</html>
